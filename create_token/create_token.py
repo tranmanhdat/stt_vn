@@ -27,7 +27,7 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    am_path = "create_token/am"
+    am_path = "am"
     os.makedirs(am_path, exist_ok=True)
     # Generating am/*
     num_word_pieces = args.wp
@@ -60,8 +60,8 @@ if __name__ == "__main__":
     print("Computing word pieces...\n", flush=True)
     train_cmd = (
         "--input={input} --model_prefix={prefix} --vocab_size={sz}"
-        " --character_coverage=1.0 --model_type=unigram"
-        " --split_by_unicode_script=false".format(
+        " --character_coverage=1.0 --model_type=unigram --input_sentence_size=5000000"
+        " --split_by_unicode_script=false --shuffle_input_sentence=true".format(
             input=train_all_text, prefix=prefix, sz=num_word_pieces
         )
     )
