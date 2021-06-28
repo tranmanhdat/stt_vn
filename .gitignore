@@ -127,3 +127,22 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/lst/
+/lst_merger/
+/lst_split/
+/vlsp_split/
+/lst_origin/
+/lst_0721_split/
+/lst_0721_merger/
+/lst_0721_filter/
+/lst_0721/
+/anomaly.lst
+/lst_new/
+/dictionary/dictionary.txt
+/dictionary/dictionary_2.txt
+/dictionary/dictionary_3.txt
+/dictionary/dictionary_4.txt
+/dictionary/dictionary_from_Dict.txt
+/dictionary/dictionary_from_Dict_unicode.txt
+/dictionary/dictionary_unicode.txt
+/dictionary/Dict/
