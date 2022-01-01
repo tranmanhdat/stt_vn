@@ -104,6 +104,7 @@ celerybeat.pid
 # Environments
 .env
 .venv
+.idea
 env/
 venv/
 ENV/
@@ -127,26 +128,23 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-/lst/
-/lst_merger/
-/lst_split/
-/vlsp_split/
-/lst_origin/
-/lst_0721_split/
-/lst_0721_merger/
-/lst_0721_filter/
-/lst_0721/
-/anomaly.lst
-/lst_new/*
-/dictionary/*.txt
-/dictionary/dictionary_2.txt
-/dictionary/dictionary_3.txt
-/dictionary/dictionary_4.txt
-/dictionary/dictionary_from_Dict.txt
-/dictionary/dictionary_from_Dict_unicode.txt
-/dictionary/dictionary_unicode.txt
-/dictionary/Dict/
-/create_token/dictionary.txt
-/create_token/dictionary_new.txt
-/dictionary/Dict/
-/lst_new/
+
+#custom define
+create_token/am/*
+create_token/*.txt
+
+data/*
+
+dictionary_process/Dict/*
+dictionary_process/frequence_dict/*
+dictionary_process/*.txt
+
+language_model_process/n-gram/Dict/*
+language_model_process/n-gram/*.arpa
+language_model_process/n-gram/*.txt
+
+statistic/decode_result/*
+statistic/log_data/*
+
+transcript_process/lst/*
+transcript_process/lst_origin/*

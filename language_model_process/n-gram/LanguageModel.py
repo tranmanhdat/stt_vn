@@ -1,3 +1,6 @@
+import os
+
+
 class LanguageModel:
     def __init__(self):
         self.number_1_gram = 0
@@ -6,6 +9,7 @@ class LanguageModel:
         self.list_1_grams = []
         self.list_2_grams = []
         self.list_3_grams = []
+
     def read_arpa(self, arpa_file):
         f_read = open(arpa_file, "r", encoding="UTF-8")
         count = 0
@@ -47,26 +51,28 @@ class LanguageModel:
         print(self.number_1_gram)
         print(self.number_2_gram)
         print(self.number_3_gram)
+
     def add_1_gram(self, words):
-        print("adding {}".format(words))
+        print("adding {} 1-grams".format(len(words)))
         for line in self.list_1_grams:
             gram = line.split("\t")[1]
             if gram in words:
                 words = list(filter(lambda a: a != gram, words))
         self.number_1_gram = self.number_1_gram + len(words)
         for word in words:
-            self.list_1_grams.append("-3.0\t"+word+"\t-1.0")
+            self.list_1_grams.append("-3.0\t" + word + "\t-1.0")
+
     def add_2_gram(self, grams, add_1_gram=False):
-        print("adding {}".format(grams))
+        print("adding {} 2-grams".format(len(grams)))
         words = []
         add_grams = grams.copy()
         for gram in grams:
             elements = gram.split(" ")
             words = words + elements
-            if elements[0]!="<s>":
-                add_grams.append("<s> "+elements[0])
-            if elements[1]!="</s>":
-                add_grams.append(elements[1]+" </s>")
+            if elements[0] != "<s>":
+                add_grams.append("<s> " + elements[0])
+            if elements[1] != "</s>":
+                add_grams.append(elements[1] + " </s>")
         if add_1_gram:
             unique_words = set(words)
             words = list(unique_words)
@@ -79,9 +85,10 @@ class LanguageModel:
                 add_grams = list(filter(lambda a: a != gram, add_grams))
         self.number_2_gram = self.number_2_gram + len(add_grams)
         for gram in add_grams:
-            self.list_2_grams.append("-3.0\t"+gram+"\t-1.0")
+            self.list_2_grams.append("-3.0\t" + gram + "\t-1.0")
+
     def add_3_gram(self, grams, add_lower_grams=True):
-        print("adding {}".format(grams))
+        print("adding {} 3-grams".format(len(grams)))
         words = []
         list_2_grams = []
         add_grams = grams.copy()
@@ -89,13 +96,13 @@ class LanguageModel:
             elements = gram.split(" ")
             words = words + elements
             list_2_grams.append("<s> " + elements[0])
-            list_2_grams.append(elements[0]+" " + elements[1])
-            list_2_grams.append(elements[1]+" " + elements[2])
+            list_2_grams.append(elements[0] + " " + elements[1])
+            list_2_grams.append(elements[1] + " " + elements[2])
             list_2_grams.append(elements[2] + " </s>")
-            if elements[0]!="<s>":
-                add_grams.append("<s> " + elements[0]+" "+elements[1])
-            if elements[2]!="</s>":
-                add_grams.append(elements[1]+" "+elements[2]+" "+" </s>")
+            if elements[0] != "<s>":
+                add_grams.append("<s> " + elements[0] + " " + elements[1])
+            if elements[2] != "</s>":
+                add_grams.append(elements[1] + " " + elements[2] + " " + " </s>")
         if add_lower_grams:
             unique_words = set(words)
             words = list(unique_words)
@@ -113,13 +120,33 @@ class LanguageModel:
         for gram in add_grams:
             self.list_3_grams.append("-2.5\t" + gram)
 
+    def write_file(self, path_file):
+        f_write = open(path_file, "w+", encoding='utf8')
+        f_write.write("\\data\\\nngram 1={}\nngram 2={}\nngram 3={}\n\n".format(self.number_1_gram, self.number_2_gram,
+                                                                                self.number_3_gram))
+        f_write.write("\\1-grams:\n")
+        for line in self.list_1_grams:
+            f_write.write(line+"\n")
+        f_write.write("\n")
+        f_write.write("\\2-grams:\n")
+        for line in self.list_2_grams:
+            f_write.write(line + "\n")
+        f_write.write("\n")
+        f_write.write("\\3-grams:\n")
+        for line in self.list_3_grams:
+            f_write.write(line + "\n")
+        f_write.write("\n\\end\\\n")
+        f_write.close()
+
+
 if __name__ == '__main__':
     lm = LanguageModel()
     lm.read_arpa("text_v3.arpa")
-    print(lm.list_1_grams[-5:])
-    print(lm.list_2_grams[-7:])
-    print(lm.list_3_grams[-7:])
-    lm.add_3_gram(["a b c","b b c","a b b", "a c c"])
-    print(lm.list_1_grams[-5:])
-    print(lm.list_2_grams[-7:])
-    print(lm.list_3_grams[-7:])
+    # print(lm.list_1_grams[-5:])
+    # print(lm.list_2_grams[-7:])
+    # print(lm.list_3_grams[-7:])
+    # lm.add_3_gram(["a b c", "b b c", "a b b", "a c c"])
+    # print(lm.list_1_grams[-5:])
+    # print(lm.list_2_grams[-7:])
+    # print(lm.list_3_grams[-7:])
+    lm.write_file("test.arpa")

@@ -23,13 +23,13 @@ for file in os.listdir(root):
         elements = data[i].split("\t")
         if i<index_test:
             elements[0] = pre + "_train_" + str(train)
-            elements[1] = elements[1].replace("/root/src/data", "/content/drive/MyDrive/NLP-Speech2Text/data")
+            # elements[1] = elements[1].replace("/root/src/data", "/content/drive/MyDrive/NLP-Speech2Text/data")
             train = train + 1
             data[i] = "\t".join(elements)
             f_train.write(data[i])
         else:
             elements[0] = pre + "_test_" + str(test)
-            elements[1] = elements[1].replace("/root/src/data", "/content/drive/MyDrive/NLP-Speech2Text/data")
+            # elements[1] = elements[1].replace("/root/src/data", "/content/drive/MyDrive/NLP-Speech2Text/data")
             data[i] = "\t".join(elements)
             f_test.write(data[i])
             test = test + 1
